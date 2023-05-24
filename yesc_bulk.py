@@ -37,7 +37,7 @@ def set_args(conf_set, item_row):
     # item_row[2] for ao_ref 
     # item_row[3] security_tag 
    
-    args = argparse.Namespace(input = conf_set[sys_set]['path_prefix'] + conf_set[sys_set]['input'], \
+    args = argparse.Namespace(input = conf_set[sys_set]['path_prefix'] + item_row[0], \
         output = conf_set[sys_set]['output'], \
         securitytag = item_row[3], \
         parent = conf_set[sys_set]['parent'], \
@@ -62,7 +62,9 @@ def set_args(conf_set, item_row):
         md5 = conf_set[sys_set]['md5'], \
         sha1 = conf_set[sys_set]['sha1'], \
         sha256 = conf_set[sys_set]['sha256'], \
-        sha512 = conf_set[sys_set]['sha512'])
+        sha512 = conf_set[sys_set]['sha512'], \
+        storage =  conf_set[sys_set]['storage'], \
+        storageconfig = conf_set[sys_set]['storageconfig'], )
     return args
 
 
