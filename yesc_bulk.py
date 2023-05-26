@@ -84,6 +84,13 @@ def config_set():
     c.execute("SELECT input, aspace_title, ao_ref, security_tag FROM entities WHERE packaged_date is '' LIMIT 2")    
          
     return c, config
+    
+def check_input(conf_set, item_row):
+    in_dir = conf_set[sys_set]['path_prefix'] + item_row[0]
+    if Path(in_dir).is_dir():
+        return True
+    else:
+        return False
 
 
 def writeBack(entryID, field, value, table):
@@ -104,12 +111,15 @@ def main():
     while total == True: 
         row = c.fetchone()
         if row:
-            print(row)
-            args = set_args(config, row)
-            sip_report = yesc.main(args)
-            sip_report['packaged_date'] = str(datetime.datetime.today())
-            for k,v in sip_report.items():
-                writeBack(row[0], k, v, 'entities')
+            print(row[0])
+            if check_input(config, row):
+                args = set_args(config, row)
+                sip_report = yesc.main(args)
+                sip_report['packaged_date'] = str(datetime.datetime.today())
+                for k,v in sip_report.items():
+                    writeBack(row[0], k, v, 'entities')
+            else:
+                writeBack(row[0], 'packaged_date', 'input_error', 'entities')
         else:
             total = False   
 
